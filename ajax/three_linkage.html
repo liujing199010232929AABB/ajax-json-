@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ajax实战之省市区三级联动菜单</title>
+</head>
+<body>
+省： <select name="" id="pro"></select>
+市： <select name="" id="city"></select>
+区县： <select name="" id="area"></select>
+<p id="addr"></p>
+<script src="lib/jquery.js"></script>
+<script>
+
+    $(function(){
+        $.getJSON('inc/1.json',function(data){
+            //console.log(data);
+            let option = '<option value="">选择(省)</option>';
+            $.each(data,function(i){
+                option +='<option value="'+data[i].proId+'">'+data[i].proName+'</option>';
+
+            });
+            //console.log(option);
+            $('#pro').html(option);
+
+            $('#pro').change(function(){
+                console.log($(this).find(':selected').text());//查看当前选择省的名称
+
+                $('#addr').html($(this).find(':selected').text());
+                $.getJSON('inc/2.json',function(data){
+                    let option = '<option value="" id="null">选择(市)</option>';
+                    $.each(data,function(i){
+                        if(data[i].proId == $('#pro').val()){//cityId=proId
+                            option += '<option value="'+data[i].cityId+'">'+data[i].cityName+'</option>';
+                        }
+                    });
+                    $('#city').html(option);
+                    //$('option[id="null"][value=""]').remove();
+
+                });
+            });
+
+            $('#city').change(function(){
+                console.log($(this).find(':selected').text());//查看当前选择省的名称
+                $.getJSON('inc/3.json',function(data){
+                    let option = '<option value="" id="null2">选择(区县)</option>';
+                    $.each(data,function(i){
+                        if(data[i].cityId == $('#city').val()){//cityId=areaId
+                            option += '<option value="'+data[i].areaId+'">'+data[i].areaName+'</option>';
+                        }
+                    });
+                    $('#area').html(option);
+                    //$('option[id="null2"][value=""]').remove();
+
+
+
+                });
+            });
+
+            $('#area').change(function(){
+                console.log($(this).find(':selected').text());//查看当前选择省的名称
+
+            });
+
+
+        })
+    })
+</script>
+</body>
+</html>

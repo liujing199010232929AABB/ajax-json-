@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script type="text/javascript" src="static/jQuery/jquery-3.4.1.min.js"></script>
+    <title>$.get()函数与实战</title>
+</head>
+<body>
+    <h3>江湖门派查询系统$.get()函数</h3>
+    <label for="school">请选择：</label>
+    <select name="school" id="school"></select>
+    <p id="detail"></p>
+    <script>
+        $.get('inc/school.php',function(data,status,xhr){
+            //console.log(data,status,xhr);
+            if(status === "success"){
+                //$('#school').html(data);
+                $(data).appendTo('#school');
+
+            }
+        });
+        $('#school').change(function(event){
+            //console.log($(this).serialize());
+            $.get(
+                'inc/detail.php',
+                {key:$(event.target).val()},
+                function(data,status){
+                    if(status === 'success'){
+                        $('#detail').html(data);
+                        $('[value=""]').remove();
+                    }else{
+                        $('#detail').html('<span style="color:red">请求失败</span>');
+                    }
+                }
+            );
+        });
+
+    </script>
+
+
+</body>
+</html>

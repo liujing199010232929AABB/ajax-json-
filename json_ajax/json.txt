@@ -1,0 +1,21 @@
+let json='{"name":"朱老师","age":30,"course":["php","java","js"]}';
+let obj=JSON.parse(json);
+for(key in obj){console.log(obj[key])};
+
+let obj2={"name":"朱老师","age":30,"course":["php","java","js"]};
+let json2=JSON.stringify(obj2);
+
+let json='{"name":"peter","age":30,"course":["php","java","js"],"isMarried":true}';
+let obj=eval('('+json+')');
+let str="alert('哈哈，我是换人');location.href='http://baidu.com'";
+eval(str);
+let json1='{"name":"peter","age":30,"course":["php","java","js"],"isMarried":true}';
+let obj1=JSON.parse(json1);
+for(key in obj1){console.log(obj1[key])}
+delete obj1.age;
+
+let obj2={"name":"peter","age":30,"course":["php","java","js"],"isMarried":true};
+let json2=JSON.stringify(obj2);
+
+let json_str=[10,20,30];
+let json4=JSON.stringify(json_str);

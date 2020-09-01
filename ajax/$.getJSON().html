@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script type="text/javascript" src="static/jQuery/jquery-3.4.1.min.js"></script>
+    <title>$.getJSON()函数与实战</title>
+</head>
+<body>
+<h3>江湖门派查询系统$.getJSON()函数</h3>
+<label for="school">请选择：</label>
+<select name="school" id="school"></select>
+<p id="detail"></p>
+<!--<?php-->
+    <!--let $key=$_GET['key'];-->
+<!--?>-->
+<script>
+    $.getJSON('inc/schools.json',function(data,status){
+        if(status === 'success'){
+            let option='<option value="">请选择</option>';
+            $.each(data,function(i){
+                //console.log(data[i]);
+                option+='<option value="'+i+'">'+data[i]+'</option>';
+            });
+            //console.log(option);
+            $('#school').html(option);
+        }
+    })
+
+    $('#school').change(function(event){
+        //console.log($(this).serialize());
+        $.getJSON(
+            'inc/detail.json',
+            //{key:$(event.target).val()},
+            function(data,status){
+                if(status === 'success'){
+                    //console.log(data.item0[$key].pic);
+                    //<img src="inc/images/1.jpg" width="200px"><h3>帮主：黄蓉，绝招《打狗棒法》</h3>
+                    //console.log(data.item+key.[key].pic);
+                    let $key=$(event.target).val();
+                    let $detail ='<img src="'+data.item[$key].pic+'"width="200px"><h3>'+data.item[$key].detail+'</h3>';
+
+
+                    $('#detail').html($detail);
+                    $('[value=""]').remove();
+                }
+            }
+        );
+    });
+
+</script>
+
+
+</body>
+</html>
